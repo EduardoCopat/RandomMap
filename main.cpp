@@ -149,10 +149,7 @@ int main(int argc, char *args[]) {
             //Event handler
             SDL_Event e;
 
-
             reset();
-
-
 
             //While application is running
             while (!quit) {
@@ -193,12 +190,25 @@ int main(int argc, char *args[]) {
                         if(*tile == 0)
                             continue;
 
+                        int diffNeighs = 0;
+                        int neighborType = 0;
+                        for(int* neighbor : neighbors){
+                            if(*neighbor != 0 && *neighbor != *tile){
+                                diffNeighs++;
+                                neighborType = *neighbor;
+                            }
+                        }
+
+                        if(diffNeighs > 4){
+                            *tile = neighborType ;
+                            continue;
+                        }
+
 
                         for(int* neighbor : neighbors){
                             if(*neighbor == 0 )
                                 *neighbor = *tile;
                         }
-
                     }
                 }
 
@@ -231,11 +241,9 @@ int main(int argc, char *args[]) {
                     }
                 }
 
-
-
                 //Update screen
                 SDL_RenderPresent(gRenderer);
-                SDL_Delay(1);
+                //SDL_Delay(1);
             }
         }
     }
